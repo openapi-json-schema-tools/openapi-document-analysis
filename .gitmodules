@@ -1,0 +1,3 @@
+[submodule "openapi-directory"]
+	path = openapi-directory
+	url = https://github.com/APIs-guru/openapi-directory.git
