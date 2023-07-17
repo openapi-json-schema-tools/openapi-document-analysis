@@ -38,6 +38,9 @@ class MetricsData:
     properties_key_qty: int = 0
     properties_not_adjacent_to_type_qty: int = 0
     properties_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
+    required_key_qty: int = 0
+    required_not_adjacent_to_type_qty: int = 0
+    required_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
 
 
 class CustomConstructor(constructor.SafeConstructor):
@@ -56,6 +59,17 @@ class CustomConstructor(constructor.SafeConstructor):
                 self.metrics_data.properties_adjacent_to_type[type_str] += 1
             else:
                 self.metrics_data.properties_not_adjacent_to_type_qty += 1
+        if 'required' in res:
+            val = res['required']
+            if type(val) is list:
+                self.metrics_data.required_key_qty += 1
+                if 'type' in res:
+                    type_str = str(res['type'])
+                    if type_str not in self.metrics_data.required_adjacent_to_type:
+                        self.metrics_data.required_adjacent_to_type[type_str] = 0
+                    self.metrics_data.required_adjacent_to_type[type_str] += 1
+                else:
+                    self.metrics_data.required_not_adjacent_to_type_qty += 1                
 
         return res
 
