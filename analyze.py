@@ -1,9 +1,12 @@
+import dataclasses
 import mmap
 import glob
 import typing
 
 import yaml
 from yaml import scanner, parser, composer, constructor, resolver, _yaml
+
+from helpers import markdown
 
 def find_document_paths() -> typing.List[str]:
     # note there are no json files
@@ -33,7 +36,7 @@ yaml.constructor.SafeConstructor.add_constructor(
 )
 properties_key_qty = 0
 properties_adjacent_to_type = {}
-properties_not_adjacent_to_type = 0
+properties_not_adjacent_to_type_qty = 0
 
 
 class CustomConstructor(constructor.SafeConstructor):
@@ -42,14 +45,14 @@ class CustomConstructor(constructor.SafeConstructor):
         if 'properties' in res:
             global properties_key_qty
             properties_key_qty += 1
-            global properties_adjacent_to_type, properties_not_adjacent_to_type
+            global properties_adjacent_to_type, properties_not_adjacent_to_type_qty
             if 'type' in res:
                 type_str = str(res['type'])
                 if type_str not in properties_adjacent_to_type:
                     properties_adjacent_to_type[type_str] = 0
                 properties_adjacent_to_type[type_str] += 1
             else:
-                properties_not_adjacent_to_type += 1
+                properties_not_adjacent_to_type_qty += 1
 
         return res
 
@@ -88,11 +91,48 @@ def filter_documents(document_paths: typing.List[str]) -> typing.List[str]:
     return filtered_paths
 
 
+
+
+@dataclasses.dataclass
+class ReportInfo:
+    title: str
+    description: str
+    int_data: typing.Optional[typing.Dict[str, int]] = None
+    dict_data: typing.Optional[typing.Dict[str, typing.Dict[str, int]]] = None
+
+def write_report(report_info: ReportInfo):
+    print(f"### {report_info.title}")
+    print("")
+    print(report_info.description)
+    print("")
+
+
 if __name__ == '__main__':
+    markdown.print_markdown_table(
+        ('Metric', 'Qty'),
+        tuple({
+            'openapi_documents_qty': 1878,
+            'properties_key_qty': 224453,
+            'properties_adjacent_to_type_qty': 19,
+        }.items())
+    )
     document_paths = find_document_paths()
     print(f"qty_found_documents={len(document_paths)}")
     filtered_document_paths = filter_documents(document_paths)
     print(f"qty_filtered_document_paths={len(filtered_document_paths)}")
     print(f"properties_key_qty={properties_key_qty}")
     print(f"properties_adjacent_to_type={properties_adjacent_to_type}")
-    print(f"properties_not_adjacent_to_type={properties_not_adjacent_to_type}")
+    print(f"properties_not_adjacent_to_type_qty={properties_not_adjacent_to_type_qty}")
+    properties_report_nfo = ReportInfo(
+        title='keyowrd=properties usage info',
+        description='Counts number of properties keyword usages. Analyzes keyword=type info adjacent to properties. docuemnts: 3.0.0-3.1.0 yaml specs only',
+        int_data={
+            'openapi_documents_qty': len(filtered_document_paths),
+            'properties_key_qty': properties_key_qty,
+            'properties_adjacent_to_type_qty': len(properties_adjacent_to_type),
+            'properties_not_adjacent_to_type_qty': properties_not_adjacent_to_type_qty,
+        },
+        dict_data={
+            'properties_adjacent_to_type_type_to_qty': properties_adjacent_to_type
+        }
+    )
