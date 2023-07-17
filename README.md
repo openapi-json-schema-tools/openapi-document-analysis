@@ -10,3 +10,6 @@ pip install pyyaml
 
 ## usage
 `python analyze.py`
+
+## Reports
+- [properties usage](reports/properties_report.md)
