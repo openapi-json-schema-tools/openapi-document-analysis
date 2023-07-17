@@ -6,7 +6,7 @@ import typing
 import yaml
 from yaml import scanner, parser, composer, constructor, resolver, _yaml
 
-from helpers import markdown
+from analyzer import markdown
 
 def find_document_paths() -> typing.List[str]:
     # note there are no json files
