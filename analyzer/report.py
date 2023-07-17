@@ -22,7 +22,7 @@ class ReportInfo:
     def write(self, stream: io.TextIOWrapper):
         stream.write(f"# {self.title}\n")
         stream.write("\n")
-        print(self.description)
+        stream.write(self.description+'\n')
         stream.write("\n")
         if self.table_infos:
             for _table_key, table_info in self.table_infos.items():
