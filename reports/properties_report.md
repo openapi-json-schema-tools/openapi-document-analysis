@@ -5,28 +5,29 @@ Counts number of properties keyword usages. Analyzes keyword=type info adjacent 
 ## General Metrics
 | Metric                              | Qty    |
 | ----------------------------------- | ------ |
-| openapi_documents_qty               | 1874   |
-| properties_key_qty                  | 224378 |
-| properties_adjacent_to_type_qty     | 18     |
-| properties_not_adjacent_to_type_qty | 7655   |
+| properties_key_qty                  | 224423 |
+| properties_not_adjacent_to_type_qty | 7662   |
+| openapi_documents_qty               | 1878   |
+| properties_adjacent_to_type_qty     | 19     |
 ## Properties Adjacent to Type Metrics
 | Type                       | Qty    |
 | -------------------------- | ------ |
-| object                     | 215084 |
-| array                      | 44     |
+| object                     | 215121 |
 | {}                         | 1374   |
-| string                     | 18     |
 | Feature                    | 83     |
-| AVRO                       | 3      |
-| PROTOBUF                   | 2      |
 | ['object', 'null']         | 55     |
+| array                      | 44     |
 | Warning                    | 24     |
+| blob                       | 19     |
+| string                     | 18     |
 | name                       | 4      |
-| PullRequestActivity        | 2      |
-| IssueActivity              | 1      |
+| AVRO                       | 3      |
 | SpecActivity               | 3      |
+| PROTOBUF                   | 2      |
+| PullRequestActivity        | 2      |
 | CustomActivity             | 2      |
 | DiscordMessageSentActivity | 2      |
-| GithubActivity             | 1      |
-| blob                       | 19     |
 | String                     | 2      |
+| directed                   | 1      |
+| IssueActivity              | 1      |
+| GithubActivity             | 1      |

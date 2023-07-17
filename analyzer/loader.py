@@ -45,7 +45,7 @@ class MetricsData:
 
 
 
-class CustomConstructor(constructor.Constructor):
+class CustomConstructor(constructor.SafeConstructor):
     def __init__(self, metrics_data: MetricsData) -> None:
         super().__init__()
         self.metrics_data = metrics_data

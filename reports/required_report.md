@@ -5,19 +5,19 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 ## General Metrics
 | Metric                              | Qty   |
 | ----------------------------------- | ----- |
-| openapi_documents_qty               | 1874  |
-| required_usage_qty                  | 85664 |
+| required_usage_qty                  | 85666 |
+| properties_not_adjacent_to_type_qty | 2451  |
+| openapi_documents_qty               | 1878  |
 | properties_adjacent_to_type_qty     | 6     |
-| properties_not_adjacent_to_type_qty | 2450  |
 ## Required Adjacent to Type Metrics
 | Type               | Qty   |
 | ------------------ | ----- |
-| object             | 83111 |
-| array              | 25    |
-| integer            | 1     |
+| object             | 83112 |
 | ['object', 'null'] | 47    |
-| string             | 11    |
+| array              | 25    |
 | blob               | 19    |
+| string             | 11    |
+| integer            | 1     |
 ## Required Key to Qty
 | Required Key                                                 | Qty   |
 | ------------------------------------------------------------ | ----- |
@@ -117,7 +117,7 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 | push                                                         | 675   |
 | archived                                                     | 665   |
 | privacy                                                      | 657   |
-| amount                                                       | 633   |
+| amount                                                       | 634   |
 | from                                                         | 629   |
 | homepage                                                     | 623   |
 | clone_url                                                    | 622   |
@@ -180,7 +180,7 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 | active_lock_reason                                           | 407   |
 | avatar_url                                                   | 394   |
 | locked                                                       | 393   |
-| currency                                                     | 390   |
+| currency                                                     | 391   |
 | author                                                       | 390   |
 | results                                                      | 389   |
 | repository_url                                               | 388   |
@@ -2478,6 +2478,7 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 | clientKey                                                    | 9     |
 | constraints                                                  | 8     |
 | invoiceId                                                    | 8     |
+| callbackUrl                                                  | 8     |
 | maxPages                                                     | 8     |
 | targetUrl                                                    | 8     |
 | template_type                                                | 8     |
@@ -3002,7 +3003,6 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 | country-code                                                 | 7     |
 | country-code3                                                | 7     |
 | currency-code                                                | 7     |
-| callbackUrl                                                  | 7     |
 | regex                                                        | 7     |
 | integrationId                                                | 7     |
 | workspaceUuid                                                | 7     |
