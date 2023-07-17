@@ -14,3 +14,4 @@ pip install pyyaml
 ## Reports
 - [properties usage](reports/properties_report.md)
 - [required usage](reports/required_report.md)
+- [required keys python usage](reports/required_keys_python_report.md)
