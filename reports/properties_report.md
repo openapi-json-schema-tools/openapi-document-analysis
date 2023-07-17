@@ -5,29 +5,29 @@ Counts number of properties keyword usages. Analyzes keyword=type info adjacent 
 ## General Metrics
 | Metric                              | Qty    |
 | ----------------------------------- | ------ |
-| openapi_documents_qty               | 1878   |
-| properties_key_qty                  | 224453 |
-| properties_adjacent_to_type_qty     | 19     |
+| properties_key_qty                  | 224423 |
 | properties_not_adjacent_to_type_qty | 7662   |
+| openapi_documents_qty               | 1878   |
+| properties_adjacent_to_type_qty     | 19     |
 ## Properties Adjacent to Type Metrics
 | Type                       | Qty    |
 | -------------------------- | ------ |
-| object                     | 215151 |
-| array                      | 44     |
+| object                     | 215121 |
 | {}                         | 1374   |
-| string                     | 18     |
 | Feature                    | 83     |
-| AVRO                       | 3      |
-| PROTOBUF                   | 2      |
-| []                         | 55     |
-| directed                   | 1      |
+| ['object', 'null']         | 55     |
+| array                      | 44     |
 | Warning                    | 24     |
-| name                       | 4      |
-| CustomActivity             | 2      |
-| SpecActivity               | 3      |
-| PullRequestActivity        | 2      |
-| IssueActivity              | 1      |
-| DiscordMessageSentActivity | 2      |
-| GithubActivity             | 1      |
 | blob                       | 19     |
+| string                     | 18     |
+| name                       | 4      |
+| AVRO                       | 3      |
+| SpecActivity               | 3      |
+| PROTOBUF                   | 2      |
+| PullRequestActivity        | 2      |
+| CustomActivity             | 2      |
+| DiscordMessageSentActivity | 2      |
 | String                     | 2      |
+| directed                   | 1      |
+| IssueActivity              | 1      |
+| GithubActivity             | 1      |

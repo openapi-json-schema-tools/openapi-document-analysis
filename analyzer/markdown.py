@@ -36,7 +36,9 @@ def __render_table(
         dashes = '-'*(i-2)
         row.insert(-1, dashes.center(i))
     stream.write('|'.join(row)+'\n')
-    for table_row in table_data:
+    table_date_list = list(table_data)
+    table_date_list.sort(key=lambda a: a[1], reverse = True)
+    for table_row in table_date_list:
         row = ['', '']
         for i, val in enumerate(table_row):
             row.insert(-1, ' '+str(val).ljust(table_column_lengths[i]-1))

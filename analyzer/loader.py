@@ -4,7 +4,7 @@ import mmap
 import typing
 
 import yaml
-from yaml import constructor, resolver, _yaml
+from yaml import constructor, resolver, _yaml, nodes
 
 def find_document_paths() -> typing.List[str]:
     # note there are no json files
@@ -38,9 +38,11 @@ class MetricsData:
     properties_key_qty: int = 0
     properties_not_adjacent_to_type_qty: int = 0
     properties_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
-    required_key_qty: int = 0
+    required_usage_qty: int = 0
     required_not_adjacent_to_type_qty: int = 0
     required_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
+    required_key_to_qty: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
+
 
 
 class CustomConstructor(constructor.SafeConstructor):
@@ -60,9 +62,13 @@ class CustomConstructor(constructor.SafeConstructor):
             else:
                 self.metrics_data.properties_not_adjacent_to_type_qty += 1
         if 'required' in res:
-            val = res['required']
-            if type(val) is list:
-                self.metrics_data.required_key_qty += 1
+            required_keys = res['required']
+            if type(required_keys) is list:
+                self.metrics_data.required_usage_qty += 1
+                for required_key in required_keys:
+                    if required_key not in self.metrics_data.required_key_to_qty:
+                        self.metrics_data.required_key_to_qty[required_key] = 0
+                    self.metrics_data.required_key_to_qty[required_key] += 1
                 if 'type' in res:
                     type_str = str(res['type'])
                     if type_str not in self.metrics_data.required_adjacent_to_type:
@@ -72,6 +78,18 @@ class CustomConstructor(constructor.SafeConstructor):
                     self.metrics_data.required_not_adjacent_to_type_qty += 1                
 
         return res
+
+    def construct_yaml_seq(self, node):
+        # this is needed to load required list at construction time and to not use a generator that is
+        # fired later to finish processing
+        data = []
+        data.extend(self.construct_sequence(node))
+        return data
+
+
+CustomConstructor.add_constructor(
+        'tag:yaml.org,2002:seq',
+        CustomConstructor.construct_yaml_seq)
 
 
 class CustomLoader(
