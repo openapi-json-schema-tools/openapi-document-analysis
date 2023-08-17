@@ -9,7 +9,7 @@ def write_properties_report(filtered_document_paths: typing.List[str], metrics_d
         table_data=tuple({
             'openapi_documents_qty': len(filtered_document_paths),
             'properties_key_qty': metrics_data.properties_key_qty,
-            'properties_adjacent_to_type_qty': len(metrics_data.properties_adjacent_to_type),
+            'properties_adjacent_to_type_qty': sum(metrics_data.properties_adjacent_to_type.values()),
             'properties_not_adjacent_to_type_qty': metrics_data.properties_not_adjacent_to_type_qty,
         }.items())
     )
@@ -28,6 +28,8 @@ def write_properties_report(filtered_document_paths: typing.List[str], metrics_d
     )
     with open('reports/properties_report.md', 'wt') as stream:
         properties_report.write(stream)
+    with open('extracted_key_data_v3specs/properties_key_to_qty.py', 'wt') as stream:
+        stream.write(f"data = {metrics_data.properties_key_to_qty}\n")
 
 def write_required_report(filtered_document_paths: typing.List[str], metrics_data: loader.MetricsData):
     required_info = report.TableInfo(
@@ -36,8 +38,8 @@ def write_required_report(filtered_document_paths: typing.List[str], metrics_dat
         table_data=tuple({
             'openapi_documents_qty': len(filtered_document_paths),
             'required_usage_qty': metrics_data.required_usage_qty,
-            'properties_adjacent_to_type_qty': len(metrics_data.required_adjacent_to_type),
-            'properties_not_adjacent_to_type_qty': metrics_data.required_not_adjacent_to_type_qty,
+            'required_adjacent_to_type_qty': sum(metrics_data.required_adjacent_to_type.values()),
+            'required_not_adjacent_to_type_qty': metrics_data.required_not_adjacent_to_type_qty,
         }.items())
     )
     required_adjacent_info = report.TableInfo(
@@ -61,6 +63,8 @@ def write_required_report(filtered_document_paths: typing.List[str], metrics_dat
     )
     with open('reports/required_report.md', 'wt') as stream:
         required_report.write(stream)
+    with open('extracted_key_data_v3specs/required_key_to_qty.py', 'wt') as stream:
+        stream.write(f"data = {metrics_data.required_key_to_qty}\n")
 
 if __name__ == '__main__':
     document_paths = loader.find_document_paths()
