@@ -11,14 +11,17 @@ reserved_words = {
 }
 
 def get_getter_method(key: str, language_info: mapping_key_language_info.MappingKeyLanguagInfo):
-    if key.lower() in reserved_words:
-        print(key)
-        language_info.case_insensitieve_collisions[key] = key.lower()
+    if isinstance(key, bool):
+        used_key = str(key)
+    else:
+        used_key = key
+    if used_key.lower() in reserved_words:
+        print(used_key)
+        language_info.case_insensitieve_collisions[used_key] = used_key.lower()
 
-    updated_key = "get_" + key.lower()
+    updated_key = "get_" + used_key.lower()
     if updated_key.isidentifier():
         return updated_key
-
 
     final_key = ''
     for char in updated_key:
@@ -30,8 +33,8 @@ def get_getter_method(key: str, language_info: mapping_key_language_info.Mapping
             final_key += char
             continue
         final_key += '_'
-    language_info.invalid_identifiers[key] = final_key
-    print(f"{key} -> {final_key}")
+    language_info.invalid_identifiers[used_key] = final_key
+    print(f"{used_key} -> {final_key}")
     return final_key
 
 

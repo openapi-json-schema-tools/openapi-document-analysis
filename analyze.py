@@ -28,6 +28,8 @@ def write_properties_report(filtered_document_paths: typing.List[str], metrics_d
     )
     with open('reports/properties_report.md', 'wt') as stream:
         properties_report.write(stream)
+    with open('extracted_key_data_v3specs/properties_key_to_qty.py', 'wt') as stream:
+        stream.write(f"data = {metrics_data.properties_key_to_qty}\n")
 
 def write_required_report(filtered_document_paths: typing.List[str], metrics_data: loader.MetricsData):
     required_info = report.TableInfo(
@@ -61,6 +63,8 @@ def write_required_report(filtered_document_paths: typing.List[str], metrics_dat
     )
     with open('reports/required_report.md', 'wt') as stream:
         required_report.write(stream)
+    with open('extracted_key_data_v3specs/required_key_to_qty.py', 'wt') as stream:
+        stream.write(f"data = {metrics_data.required_key_to_qty}\n")
 
 if __name__ == '__main__':
     document_paths = loader.find_document_paths()

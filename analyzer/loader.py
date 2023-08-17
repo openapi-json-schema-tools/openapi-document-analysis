@@ -38,6 +38,7 @@ class MetricsData:
     properties_key_qty: int = 0
     properties_not_adjacent_to_type_qty: int = 0
     properties_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
+    properties_key_to_qty: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
     required_usage_qty: int = 0
     required_not_adjacent_to_type_qty: int = 0
     required_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
@@ -51,7 +52,7 @@ class CustomConstructor(constructor.SafeConstructor):
         self.metrics_data = metrics_data
 
     def construct_mapping(self, node, deep=False):
-        res = super().construct_mapping(node, deep=deep)
+        res = super().construct_mapping(node, deep=True)
         if 'properties' in res:
             self.metrics_data.properties_key_qty += 1
             if 'type' in res:
@@ -61,6 +62,11 @@ class CustomConstructor(constructor.SafeConstructor):
                 self.metrics_data.properties_adjacent_to_type[type_str] += 1
             else:
                 self.metrics_data.properties_not_adjacent_to_type_qty += 1
+            properties = res['properties']
+            for property_key in properties:
+                if property_key not in self.metrics_data.properties_key_to_qty:
+                    self.metrics_data.properties_key_to_qty[property_key] = 0
+                self.metrics_data.properties_key_to_qty[property_key] += 1
         if 'required' in res:
             required_keys = res['required']
             if type(required_keys) is list:
