@@ -5,8 +5,8 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 ## Key Information
 | Metric                           | Qty   |
 | -------------------------------- | ----- |
-| qty_keys                         | 21431 |
-| invalid_identifiers_qty          | 293   |
+| qty_keys                         | 20220 |
+| invalid_identifiers_qty          | 286   |
 | case_insensitieve_collisions_qty | 17    |
 ## Reserved Word Identifiers Info
 | Original Key | Reserved Word |
@@ -53,8 +53,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | to-type                                       | get_to_type                                       |
 | tld-cc                                        | get_tld_cc                                        |
 | timeToRefill (deprecated)                     | get_timetorefill__deprecated_                     |
-| The row position of the gadget.               | get_the_row_position_of_the_gadget_               |
-| The column position of the gadget.            | get_the_column_position_of_the_gadget_            |
 | Teste de Api                                  | get_teste_de_api                                  |
 | Teste da Api2                                 | get_teste_da_api2                                 |
 | template[name]                                | get_template_name_                                |
@@ -63,7 +61,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | Tamanho da Tela                               | get_tamanho_da_tela                               |
 | syntax-error                                  | get_syntax_error                                  |
 | stock plan                                    | get_stock_plan                                    |
-| start-date                                    | get_start_date                                    |
 | ssl-required                                  | get_ssl_required                                  |
 | smtp-status                                   | get_smtp_status                                   |
 | smtp-response                                 | get_smtp_response                                 |
@@ -122,7 +119,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | money market                                  | get_money_market                                  |
 | mime-type                                     | get_mime_type                                     |
 | message-timestamp                             | get_message_timestamp                             |
-| Menu Items                                    | get_menu_items                                    |
 | Median Home Value                             | get_median_home_value                             |
 | major-version                                 | get_major_version                                 |
 | mail-provider                                 | get_mail_provider                                 |
@@ -210,7 +206,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | hlr-status                                    | get_hlr_status                                    |
 | health reimbursement arrangement              | get_health_reimbursement_arrangement              |
 | hate/threatening                              | get_hate_threatening                              |
-| Grocery Products                              | get_grocery_products                              |
 | full-version                                  | get_full_version                                  |
 | from-value                                    | get_from_value                                    |
 | from-type                                     | get_from_type                                     |
@@ -224,7 +219,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | error-name                                    | get_error_name                                    |
 | error-message                                 | get_error_message                                 |
 | error-code-label                              | get_error_code_label                              |
-| end-date                                      | get_end_date                                      |
 | employee[last_name]                           | get_employee_last_name_                           |
 | employee[first_name]                          | get_employee_first_name_                          |
 | employee[email]                               | get_employee_email_                               |
@@ -293,7 +287,6 @@ Checks if mapping required keys are reserved words or would ave invalid getter n
 | @vocab                                        | get__vocab                                        |
 | $ref                                          | get__ref                                          |
 | $permissions                                  | get__permissions                                  |
-| @odata.type                                   | get__odata_type                                   |
 | $id                                           | get__id                                           |
 | @context                                      | get__context                                      |
 | $content-type                                 | get__content_type                                 |
