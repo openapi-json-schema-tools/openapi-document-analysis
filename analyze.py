@@ -9,7 +9,7 @@ def write_properties_report(filtered_document_paths: typing.List[str], metrics_d
         table_data=tuple({
             'openapi_documents_qty': len(filtered_document_paths),
             'properties_key_qty': metrics_data.properties_key_qty,
-            'properties_adjacent_to_type_qty': len(metrics_data.properties_adjacent_to_type),
+            'properties_adjacent_to_type_qty': sum(metrics_data.properties_adjacent_to_type.values()),
             'properties_not_adjacent_to_type_qty': metrics_data.properties_not_adjacent_to_type_qty,
         }.items())
     )
@@ -36,8 +36,8 @@ def write_required_report(filtered_document_paths: typing.List[str], metrics_dat
         table_data=tuple({
             'openapi_documents_qty': len(filtered_document_paths),
             'required_usage_qty': metrics_data.required_usage_qty,
-            'properties_adjacent_to_type_qty': len(metrics_data.required_adjacent_to_type),
-            'properties_not_adjacent_to_type_qty': metrics_data.required_not_adjacent_to_type_qty,
+            'required_adjacent_to_type_qty': sum(metrics_data.required_adjacent_to_type.values()),
+            'required_not_adjacent_to_type_qty': metrics_data.required_not_adjacent_to_type_qty,
         }.items())
     )
     required_adjacent_info = report.TableInfo(

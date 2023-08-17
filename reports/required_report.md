@@ -6,9 +6,9 @@ Counts number of required keyword usages. Analyzes keyword=type info adjacent to
 | Metric                              | Qty   |
 | ----------------------------------- | ----- |
 | required_usage_qty                  | 85666 |
-| properties_not_adjacent_to_type_qty | 2451  |
+| required_adjacent_to_type_qty       | 83215 |
+| required_not_adjacent_to_type_qty   | 2451  |
 | openapi_documents_qty               | 1878  |
-| properties_adjacent_to_type_qty     | 6     |
 ## Required Adjacent to Type Metrics
 | Type               | Qty   |
 | ------------------ | ----- |

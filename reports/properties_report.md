@@ -6,9 +6,9 @@ Counts number of properties keyword usages. Analyzes keyword=type info adjacent 
 | Metric                              | Qty    |
 | ----------------------------------- | ------ |
 | properties_key_qty                  | 224423 |
+| properties_adjacent_to_type_qty     | 216761 |
 | properties_not_adjacent_to_type_qty | 7662   |
 | openapi_documents_qty               | 1878   |
-| properties_adjacent_to_type_qty     | 19     |
 ## Properties Adjacent to Type Metrics
 | Type                       | Qty    |
 | -------------------------- | ------ |
