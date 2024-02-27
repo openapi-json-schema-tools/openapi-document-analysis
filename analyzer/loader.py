@@ -1,4 +1,5 @@
 import dataclasses
+import enum
 import glob
 import mmap
 import typing
@@ -33,6 +34,15 @@ yaml.constructor.SafeConstructor.add_constructor(
     yaml.constructor.SafeConstructor.construct_yaml_str
 )
 
+class ResponseType(enum.Enum):
+    DEFAULT_ONLY = enum.auto()
+    STATUS_ONLY = enum.auto()
+    WILDCARD_ONLY = enum.auto()
+    DEFAULT_STATUS = enum.auto()
+    DEFAULT_WILDCARD = enum.auto()
+    STATUS_WIDLCARD = enum.auto()
+    DEFAULT_STATUS_WILDCARD = enum.auto()
+
 @dataclasses.dataclass
 class MetricsData:
     properties_key_qty: int = 0
@@ -43,6 +53,8 @@ class MetricsData:
     required_not_adjacent_to_type_qty: int = 0
     required_adjacent_to_type: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
     required_key_to_qty: typing.Dict[str, int] = dataclasses.field(default_factory=lambda: {})
+    responses_qty: int = 0
+    responses_qtys: typing.Dict[ResponseType, int] = dataclasses.field(default_factory=lambda: {})
 
 
 
@@ -110,19 +122,61 @@ class CustomLoader(
         resolver.Resolver.__init__(self)
 
 
-def yaml_loading_works(document_path: str, metrics_data: MetricsData) -> bool:
+def get_yaml_doc(document_path: str, metrics_data: MetricsData) -> typing.Optional[dict]:
     try:
         with open(document_path, 'r') as file:
 
             loader = CustomLoader(file, metrics_data)
             try:
-                _loaded_data = loader.get_single_data()
+                return loader.get_single_data()
             finally:
                 loader.dispose()
-            return True
     except Exception as exc:
         print (f"Yaml error in file={document_path} error={exc}")
-        return False
+        return None
+
+def increment_response_type(metrics_data: MetricsData, response_type: ResponseType):
+    if response_type not in metrics_data.responses_qtys:
+        metrics_data.responses_qtys[response_type] = 0
+    metrics_data.responses_qtys[response_type] += 1
+
+def anaylze_doc(yaml_doc: dict, metrics_data: MetricsData):
+    path_items = yaml_doc.get('paths')
+    if path_items is not None:
+        for path_item in path_items.values():
+            if not isinstance(path_item, dict):
+                continue
+            for verb in {'get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'}:
+                operation = path_item.get(verb)
+                if operation is None:
+                    continue
+                responses: typing.Optional[typing.Dict[str, dict]] = operation.get('responses')
+                if responses is None:
+                    continue
+                if len(responses) == 0:
+                    continue
+                metrics_data.responses_qty += 1
+                if len(responses) == 1:
+                    key = [k for k in responses][0]
+                    if key == 'default':
+                        increment_response_type(metrics_data, ResponseType.DEFAULT_ONLY)
+                    elif key.endswith('XX'):
+                        increment_response_type(metrics_data, ResponseType.WILDCARD_ONLY)
+                    else:
+                        increment_response_type(metrics_data, ResponseType.STATUS_ONLY)
+                else:
+                    default_present = 'default' in responses
+                    wildcard_present = any(k.endswith('XX') for k in responses)
+                    status_present = any(not(k.endswith('XX') or k == 'default') for k in responses)
+                    number = [default_present, wildcard_present, status_present]
+                    if number == [True, True, False]:
+                        increment_response_type(metrics_data, ResponseType.DEFAULT_WILDCARD)
+                    elif number == [True, False, True]:
+                        increment_response_type(metrics_data, ResponseType.DEFAULT_STATUS)
+                    elif number == [False, True, True]:
+                        increment_response_type(metrics_data, ResponseType.STATUS_WIDLCARD)
+                    elif number == [True, True, True]:
+                        increment_response_type(metrics_data, ResponseType.DEFAULT_STATUS_WILDCARD)
 
 def filter_and_analyze_documents(document_paths: typing.List[str], metrics_data: MetricsData) -> typing.List[str]:
     filtered_paths: typing.List[str] = []
@@ -132,6 +186,9 @@ def filter_and_analyze_documents(document_paths: typing.List[str], metrics_data:
         is_v3_spec = file_contains_3x_spec_version(document_path)
         # print(f"path={document_path} v3={is_v3_spec}")
         if is_v3_spec:
-            if yaml_loading_works(document_path, metrics_data):
-                filtered_paths.append(document_path)
+            yaml_doc = get_yaml_doc(document_path, metrics_data)
+            if yaml_doc is None:
+                continue
+            anaylze_doc(yaml_doc, metrics_data)
+            filtered_paths.append(document_path)
     return filtered_paths
