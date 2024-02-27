@@ -66,21 +66,47 @@ def write_required_report(filtered_document_paths: typing.List[str], metrics_dat
     with open('extracted_key_data_v3specs/required_key_to_qty.py', 'wt') as stream:
         stream.write(f"data = {metrics_data.required_key_to_qty}\n")
 
+def write_responses_report(filtered_document_paths: typing.List[str], metrics_data: loader.MetricsData):
+    responses_info = report.TableInfo(
+        title='Responses Metrics',
+        table_headers=('Metric', 'Qty'),
+        table_data=tuple({
+            'openapi_documents_qty': len(filtered_document_paths),
+            'responses_key_qty': metrics_data.responses_qty,
+        }.items())
+    )
+    responses_detailed_info = report.TableInfo(
+        title='Responses Type To Qty Metrics',
+        table_headers=('Type', 'Qty'),
+        table_data=tuple(metrics_data.responses_qtys.items())
+    )
+    responses_report = report.ReportInfo(
+        title='Json Schema Operations Responses Usage Info',
+        description='Counts number of operations with 1 or more responses. documents: 3.0.0-3.1.0 yaml specs only',
+        table_infos={
+            'responses_info': responses_info,
+            'responses_detailed_info': responses_detailed_info
+        }
+    )
+    with open('reports/responses_report.md', 'wt') as stream:
+        responses_report.write(stream)
+
 if __name__ == '__main__':
     document_paths = loader.find_document_paths()
     print(f"qty_found_documents={len(document_paths)}")
     metrics_data = loader.MetricsData()
     filtered_document_paths = loader.filter_and_analyze_documents(document_paths, metrics_data)
-    print(f"qty_filtered_document_paths={len(filtered_document_paths)}")
-    print(f"properties_key_qty={metrics_data.properties_key_qty}")
-    print(f"properties_adjacent_to_type={metrics_data.properties_adjacent_to_type}")
-    print(f"properties_not_adjacent_to_type_qty={metrics_data.properties_not_adjacent_to_type_qty}")
-    print(f"required_usage_qty={metrics_data.required_usage_qty}")
-    print(f"required_adjacent_to_type={metrics_data.required_adjacent_to_type}")
-    print(f"required_not_adjacent_to_type_qty={metrics_data.required_not_adjacent_to_type_qty}")
-    print(f"required_key_to_qty={metrics_data.required_key_to_qty}")
+    # print(f"qty_filtered_document_paths={len(filtered_document_paths)}")
+    # print(f"properties_key_qty={metrics_data.properties_key_qty}")
+    # print(f"properties_adjacent_to_type={metrics_data.properties_adjacent_to_type}")
+    # print(f"properties_not_adjacent_to_type_qty={metrics_data.properties_not_adjacent_to_type_qty}")
+    # print(f"required_usage_qty={metrics_data.required_usage_qty}")
+    # print(f"required_adjacent_to_type={metrics_data.required_adjacent_to_type}")
+    # print(f"required_not_adjacent_to_type_qty={metrics_data.required_not_adjacent_to_type_qty}")
+    # print(f"required_key_to_qty={metrics_data.required_key_to_qty}")
 
     write_properties_report(filtered_document_paths, metrics_data)
     write_required_report(filtered_document_paths, metrics_data)
+    write_responses_report(filtered_document_paths, metrics_data)
 
 
